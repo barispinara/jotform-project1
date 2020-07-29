@@ -1,8 +1,8 @@
 <?php
 include "D:\Jotform\Project 1 (Whatsapp)/JotForm.php";
-$jotformAPI = new JotForm("53f94ff42756396aee1f2159ec9a486d");
+$jotformAPI = new JotForm("API KEY");
 
-$submissions = $jotformAPI->getFormSubmissions("202101164247037");
+$submissions = $jotformAPI->getFormSubmissions("FORM ID");
 
 
 function telegram($msg) {
@@ -15,8 +15,8 @@ function telegram($msg) {
 }
 
 
-$telegrambot= '1296708550:AAFcfS9g3UdqNM6jazSNQbVnVR8v85364uY';
-$telegramchatid=-329405531;
+$telegrambot= 'Telegram-BOT-ID';
+$telegramchatid=-Chat-ID;
 
 echo "Name ".$submissions[0]["answers"][4]["answer"]["first"];
 echo "\n";
