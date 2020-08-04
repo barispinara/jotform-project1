@@ -1,9 +1,9 @@
 <?php
 
-include "https://barispinara.000webhostapp.com/JotForm.php";
+include "JotForm.php";
 
-$jotformAPI = new JotForm("53f94ff42756396aee1f2159ec9a486d");
-$token = "1296708550:AAFcfS9g3UdqNM6jazSNQbVnVR8v85364uY";
+$jotformAPI = new JotForm("API KEY");
+$token = "BOT_TOKEN";
 $website = "https://api.telegram.org/bot".$token;
 $web = "https://api.telegram.org/file/bot".$token;
 $update = file_get_contents('php://input');
