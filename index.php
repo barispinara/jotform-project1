@@ -6,7 +6,7 @@ include "create_form.php";
 /* basic connection part on telegram 
 $update is main part of the connection on telegram
 */
-$token = "1296708550:AAFcfS9g3UdqNM6jazSNQbVnVR8v85364uY";
+$token = "BOT TOKEN";
 $website = "https://api.telegram.org/bot".$token;
 $web = "https://api.telegram.org/file/bot".$token;
 $update = file_get_contents('php://input');
