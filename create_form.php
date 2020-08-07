@@ -10,13 +10,6 @@ createForm() request when user type '/end'.
 function create_form(){
         $count = 0;
         $file = fopen("ftp://admin:admin@localhost/create_form.txt" , "r");
-        /*try{
-        if (!file_exists($file)) {
-            throw new Exception('File not found.');
-        }}
-        catch(Exception $e){
-            echo $e->getMessage();
-        }*/
         while(!feof($file)){
             $command = fgets($file);
             $count++;
