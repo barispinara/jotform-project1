@@ -1,7 +1,9 @@
 <?php
 include "Storage.php";
 
-$cache = new Storage();
+
+
+/* basic Command class, it shows all commands of bot (it will be more command when some steps completed)*/
 
 class command {
 function commandlist ($msg) {
