@@ -111,7 +111,7 @@ function create_form(){
         }
         fclose($file);
 
-        $jotformAPI = new JotForm("53f94ff42756396aee1f2159ec9a486d");
+        $jotformAPI = new JotForm("API KEY");
         $response =$jotformAPI->createForm($form);
 }
 
