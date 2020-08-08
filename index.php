@@ -3,6 +3,8 @@ include "command.php";
 include_once "Storage.php";
 include "create_form.php";
 
+
+/* DENEME DENEME DENEME */
 /* basic connection part on telegram 
 $update is main part of the connection on telegram
 */
