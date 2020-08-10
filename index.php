@@ -61,7 +61,7 @@ if($text == "/end"){
     sendMessage($chatID, "Form created succesfully");
 }
 
-
+/* When user type '/done' system will closed and Send() method will run which is coming from submission.php */
 if($text == "/done"){
     Send();
     $cache->End();
@@ -69,17 +69,19 @@ if($text == "/done"){
 }
 
 
-
+/* seperated $text message for "1 Name Surname" or "2 example@example.com" answers*/
 $data = explode(" " , $text);
 
-
+/* submission command working with '/start /submission form_number' so when user enter this command, /submission command adding into cache.txt
+and response.txt saving Form ID number */
 if($data[1] == "/submission"){
     $cache->Start();
     $cache->progress("cache.txt" , $data[1]);
     $cache->progress("response.txt" , "202222411265036");
     sendMessage($chatID , question('202222411265036'));
 }
-
+/* After user used /submission command bot will ask question of form question and added into response.txt of user answers this if clause will user if user type '/end' 
+or '/done' */
 if($cache->getInfo("cache.txt") == "/submission" && $text != "/done" && $text != "/end"){
         if($data[0] == "1"){
             $name = $data[1]." ".$data[2];

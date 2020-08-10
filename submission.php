@@ -1,7 +1,7 @@
 <?php
 
 include_once $_SERVER['DOCUMENT_ROOT']."/JotForm.php";
-
+/* question method is reading all question in forms and adding into "question.txt" */
 function question($number){
     $jotformAPI = new JotForm("53f94ff42756396aee1f2159ec9a486d");
     $response = $jotformAPI->getFormQuestions($number);
@@ -9,6 +9,7 @@ function question($number){
         file_put_contents("question.txt" , $response[$i]['type'].PHP_EOL , FILE_APPEND);
     }
 }
+/* after reading all question response method asking answer for form question */
 function response(){
     $file = fopen ("question.txt" , "r");
     $data;
@@ -33,7 +34,7 @@ function response(){
     return $data;
 
 }
-
+/* Send method is the final method of submission after gathering all answers which is coming from "response.txt" sending to JotForm*/
 function Send(){
     $file = fopen("response.txt" , "r");
     $form_number = fgets($file);
