@@ -6,27 +6,31 @@ class Storage{
     public function Start(){
         file_put_contents("cache.txt");
         file_put_contents("create_form.txt");
+        file_put_contents("question.txt");
+        file_put_contents("response.txt");
         ob_start();
 
     }
-    public function progress($msg){
-        file_put_contents("cache.txt" , $msg);
+    public function progress($file , $msg){
+        if($file == "cache.txt"){
+        file_put_contents($file , $msg);
+        }
+        else{
+            file_put_contents($file , $msg.PHP_EOL , FILE_APPEND);
+        }
     }
     
     public function End(){
         unlink("cache.txt");
         unlink("create_form.txt");
+        unlink("question.txt");
+        unlink("response.txt");
         ob_clean();
     }
-    public function getInfo(){
-        return file_get_contents("cache.txt");
+    public function getInfo($file){
+        return file_get_contents($file);
     }
-    public function Form_progress($msg){
-        file_put_contents("create_form.txt", $msg. PHP_EOL , FILE_APPEND);
-    }
-    public function getFormInfo(){
-        return file_get_contents("create_form.txt");
-    }
+
     
 
 }

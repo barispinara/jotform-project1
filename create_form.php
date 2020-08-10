@@ -9,14 +9,14 @@ createForm() request when user type '/end'.
 
 function create_form(){
         $count = 0;
-        $file = fopen("ftp://admin:admin@localhost/create_form.txt" , "r");
+        $file = fopen("create_form.txt" , "r");
         while(!feof($file)){
             $command = fgets($file);
             $count++;
-            if( $command == 1){
+            if( $command == "1".PHP_EOL){
                 array_push($form['questions'][$count-1]=
                     array(
-                        'type' => 'control_textbox',
+                        'type' => 'control_fullname',
                         'text' => 'Full Name',
                         'name' => 'Full Name',
                         'validation' => 'None',
@@ -26,9 +26,10 @@ function create_form(){
                         'labelAlign' => 'Auto',
                         'hint' => '',
                     ));
+                
 
             }
-            else if( $command == 2){
+            else if( $command == "2".PHP_EOL){
                 array_push($form['questions'][$count-1]=
                     array(
                         'type' => 'control_email',
@@ -41,8 +42,9 @@ function create_form(){
                         'labelAlign' => 'Auto',
                         'hint' => '',
                     ));
+                
             }
-            else if( $command == 3){
+            else if( $command == "3".PHP_EOL){
                 array_push($form['questions'][$count-1]=
                     array(
                         'type' => 'control_address',
@@ -56,7 +58,8 @@ function create_form(){
                         'hint' => '',
                     ));
             }
-            else if( $command == 4){
+            else if( $command == "4".PHP_EOL){
+                
                 array_push($form['questions'][$count-1]=
                     array(
                         'type' => 'control_phone',
@@ -90,9 +93,7 @@ function create_form(){
                             'to' => 'noreply@jotform.com',
                             'subject' => 'New Submission',
                             'html' => 'false'
-                        ),
-                    ),
-                );
+                        ),),);
             }
         }
         array_push($form['questions'][$count]=
@@ -108,9 +109,11 @@ function create_form(){
                     ));
         fclose($file);
 /* Send create form request to jotform.com */
-        $jotformAPI = new JotForm("API KEY");
+        $jotformAPI = new JotForm("53f94ff42756396aee1f2159ec9a486d");
+        //return $form['questions'][1]['text'];
         $response =$jotformAPI->createForm($form);
-        return $response['url'];
+        $str = explode("/" , $response['url']);
+        return $str[3];
 }
 
     
