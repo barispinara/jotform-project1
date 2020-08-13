@@ -105,6 +105,7 @@ if($data2[0] == "submission" && is_numeric($data2[1]) == 1){
 }
 /* After user used /submission command bot will ask question of form question and added into response.txt of user answers this if clause will user if user type '/end' 
 or '/done' */
+/* Update: Bot will ask form questions one by one and if user type /clear bot will delete response and start again ask */
 if($cache->getInfo($chatID."cache.txt") == "submission" && $text != "/done" && $text != "/end"){
     $lines = file($chatID."response.txt");
     if($text == "/clear"){
