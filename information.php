@@ -21,8 +21,11 @@ function information($formid){
             }
             else if($i == 1){
                 $data .= "Form Title: ".$submission[$x]["answers"][$i]["text"];
-                $data .= "Submission Date: ".$submission[$x]['updated_at']."\r\n";
+                $data .= "Submission Date: ".$submission[$x]['created_at']."\r\n";
             }
-    }}
+        }
+        $data .= "\r\n";
+    }
+
     return $data;
 }

@@ -2,44 +2,41 @@
 
 include_once $_SERVER['DOCUMENT_ROOT']."/JotForm.php";
 /* question method is reading all question in forms and adding into "question.txt" */
-function question($number){
+function question($chatID , $number){
     $jotformAPI = new JotForm("53f94ff42756396aee1f2159ec9a486d");
     $response = $jotformAPI->getFormQuestions($number);
     for($i = 1 ; $i <= count($response) ; $i++){
-        file_put_contents("question.txt" , $response[$i]['type']."\r\n" , FILE_APPEND);
+        file_put_contents($chatID."question.txt" , $response[$i]['type']."\r\n" , FILE_APPEND);
     }
 }
 /* after reading all question response method asking answer for form question */
-function response(){
-    $file = fopen ("question.txt" , "r");
-    $data;
+function response($chatID){
+    $file = fopen ($chatID."question.txt" , "r");
+    //$data;
     while(!feof($file)){
         $command = fgets($file);
         if($command == "control_fullname\r\n"){
-            $data .= "1-) Please Enter Your Full Name\r\n";
+            file_put_contents($chatID."response.txt" , "1.f".PHP_EOL , FILE_APPEND);
         }
         else if($command == "control_email\r\n"){
-            $data .= "2-) Please Enter Your Email\r\n";
+            file_put_contents($chatID."response.txt" , "2.e".PHP_EOL , FILE_APPEND);
         }
         else if($command == "control_phone\r\n"){
-            $data .= "3-) Please Enter Your Phone\r\n";
+            file_put_contents($chatID."response.txt" , "3.p".PHP_EOL , FILE_APPEND);
         }
         else if($command == "control_textbox\r\n"){
-            $data .= "4-) Please Enter Your Address \r\n";
+            file_put_contents($chatID."response.txt" , "4.a".PHP_EOL , FILE_APPEND);
         }
-
-
-
 
     }
     fclose($file);
-    $data .= "Please Answer Like this \r\n '1 Name Surname' or \r\n '2 example@example.com' 4 \r\n type '/done' for complete submission";
-    return $data;
+    //$data .= "Please Answer Like this \r\n '1 Name Surname' or \r\n '2 example@example.com' 4 \r\n type '/done' for complete submission";
+    //return $data;
 
 }
 /* Send method is the final method of submission after gathering all answers which is coming from "response.txt" sending to JotForm*/
-function Send(){
-    $file = fopen("response.txt" , "r");
+function Send($chatID){
+    $file = fopen($chatID."response.txt" , "r");
     $form_number = fgets($file , 16);
     $jotformAPI = new JotForm("53f94ff42756396aee1f2159ec9a486d");
     $response = $jotformAPI->getFormQuestions($form_number);

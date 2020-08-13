@@ -4,16 +4,16 @@
 // Update: Storage system is changed, Bot will save files according to chatID and username
 class Storage{
 
-    public function Start($chatID , $username){
-        file_put_contents($chatID.$username."cache.txt");
-        file_put_contents($chatID.$username."create_form.txt");
-        file_put_contents($chatID.$username."question.txt");
-        file_put_contents($chatID.$username."response.txt");
+    public function Start($chatID){
+        file_put_contents($chatID."cache.txt");
+        file_put_contents($chatID."create_form.txt");
+        file_put_contents($chatID."question.txt");
+        file_put_contents($chatID."response.txt");
         ob_start();
 
     }
-    public function progress($chatID , $username ,$file , $msg){
-        if($file == $chatID.$username."cache.txt"){
+    public function progress($chatID ,$file , $msg){
+        if($file == $chatID."cache.txt"){
         file_put_contents($file , $msg);
         }
         else{
@@ -21,11 +21,11 @@ class Storage{
         }
     }
     
-    public function End($chatID , $username){
-        unlink($chatID.$username."cache.txt");
-        unlink($chatID.$username."create_form.txt");
-        unlink($chatID.$username."question.txt");
-        unlink($chatID.$username."response.txt");
+    public function End($chatID){
+        unlink($chatID."cache.txt");
+        unlink($chatID."create_form.txt");
+        unlink($chatID."question.txt");
+        unlink($chatID."response.txt");
         ob_clean();
     }
     public function getInfo($file){
