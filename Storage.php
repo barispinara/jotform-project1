@@ -9,11 +9,12 @@ class Storage{
         file_put_contents($chatID."create_form.txt");
         file_put_contents($chatID."question.txt");
         file_put_contents($chatID."response.txt");
+        file_put_contents($chatID."api.txt");
         ob_start();
 
     }
     public function progress($chatID ,$file , $msg){
-        if($file == $chatID."cache.txt"){
+        if($file == $chatID."cache.txt" || $file == $chatID."api.txt"){
         file_put_contents($file , $msg);
         }
         else{
@@ -27,6 +28,9 @@ class Storage{
         unlink($chatID."question.txt");
         unlink($chatID."response.txt");
         ob_clean();
+    }
+    public function out($chatID){
+        unlink($chatID."api.txt");
     }
     public function getInfo($file){
         return file_get_contents($file);

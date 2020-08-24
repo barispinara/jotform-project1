@@ -17,6 +17,7 @@ $chatID = $update['message']['from']['id'];
 $firstname = $update['message']['from']['first_name'];
 $username = $update['message']['from']['username'];
 $text = $update['message']['text'];
+$ngrok = "https://f8a048a1a6ab.ngrok.io";
 
 /* Send Message function which is coming from api.telegram */
 function sendMessage($chatID , $text){
@@ -39,7 +40,7 @@ if(empty($cache->getInfo($chatID."create_form.txt"))){
 
     }
 }
-
+//--------------------------------CREATE FORM PART-------------------------------------------
 
 /* if create_form.txt is not empty thats mean user gave title of form so this if clause triggers steps of createForm 
 if user type '/end' then createForm questions will stop and bot will create from */
@@ -56,31 +57,42 @@ if(!empty($cache->getInfo($chatID."create_form.txt")) && $text != "/end" && $tex
 }
 /* This project have 2 txt file, cache.txt and create_form.txt when user type '/create_form' cache.txt is saving this type for 
 starting create_form.php*/
-if($text == "/create_form"){
+if($text == "/create_form" && !empty($cache->getInfo($chatID."api.txt"))  ){
     $cache->Start($chatID , );
     $cache->progress($chatID , $chatID."cache.txt" , $text);
     sendMessage($chatID , "Alright, Lets start \r\nPlease type form title");
     $chat = TRUE;
 }
+if($text == "/create_form" && empty($cache->getInfo($chatID."api.txt")) ){
+    sendMessage($chatID , "First, you have to login to system.");
+    sendMessage($chatID , "You can login from here: ".$ngrok."/login.html");
+    $chat = TRUE;
+}
 
 /* Normally '/end' command should be in command.php it will be added when some steps are completed 
 when user type '/end' cache files are deleted and create_form() which is comming from create_form.php method  starts */
-if($text == "/end" && $cache->getInfo($chatID."cache.txt") != "submission"){
+if($text == "/end" && $cache->getInfo($chatID."cache.txt") != "submission" && $cache->getInfo($chatID."cache.txt") == "/create_form"){
     sendMessage($chatID , create_form($chatID));
     $cache->End($chatID);
     sendMessage($chatID, "Form created succesfully");
+    sendMessage($chatID ,"That was a wonderful form well done :) , you can chat with me if you want or just type /help if you need help");
     $chat = TRUE;
 }
 else if($text == "/end" && $cache->getInfo($chatID."cache.txt") == "/start"){
     sendMessage($chatID, "Uncorrect command did you want to type '/done' ? ");
     $chat = TRUE;
 }
+//-------------------------------CREATE FORM PART--------------------------------------------
+
+
+//-------------------------------FORM SUBMISSION PART----------------------------------------------
 
 /* When user type '/done' system will closed and Send() method will run which is coming from submission.php */
-if($text == "/done" && $cache->getInfo($chatID."cache.txt") != "/create_form"){
+if($text == "/done" && $cache->getInfo($chatID."cache.txt") != "/create_form" && $cache->getInfo($chatID."cache.txt") == "submission"){
     sendMessage($chatID , Send($chatID));
     $cache->End($chatID);
     sendMessage($chatID , "Form response has been received");
+    sendMessage($chatID , "You can type /create_form for create new form or you can chat with me :) type /help if you need help");
     $chat = TRUE;
 }
 else if($text == "/done" && $cache->getInfo($chatID."cache.txt") == "/create_form"){
@@ -105,7 +117,6 @@ if($data2[0] == "submission" && is_numeric($data2[1]) == 1){
 }
 /* After user used /submission command bot will ask question of form question and added into response.txt of user answers this if clause will user if user type '/end' 
 or '/done' */
-/* Update: Bot will ask form questions one by one and if user type /clear bot will delete response and start again ask */
 if($cache->getInfo($chatID."cache.txt") == "submission" && $text != "/done" && $text != "/end"){
     $lines = file($chatID."response.txt");
     if($text == "/clear"){
@@ -157,17 +168,55 @@ if($cache->getInfo($chatID."cache.txt") == "submission" && $text != "/done" && $
         file_put_contents($chatID."response.txt" , $lines , FILE_APPEND);
         $chat = TRUE;
 
-}     
+} 
+//------------------------FORM SUBMISSION PART-------------------------------------------
 
-// This is submission part if user type correct command, bot will respond all submission of form
-if($data2[0] == "get" && is_numeric($data2[1]) == 1){
-    sendMessage($chatID , information($data2[1]));
+
+//-----------------------GET SUBMISSION PART---------------------------- 
+// After succesfull login the system, users can use '/get' command and with this command user can see their forms numerically and after selecting one form they can see form submissions.   
+if($cache->getInfo($chatID."cache.txt") == "/get"){
+    sendMessage($chatID , information($chatID , $text));
+    $cache->End($chatID);
+    sendMessage($chatID , "You can say again /get and give number to see another form submissions or say /create_form for creating new form :)");
     $chat = TRUE;
 }
+//---------------------------GET SUBMISSION PART-----------------------
+
+// This is submission part if user type correct command, bot will respond all submission of form
+// -----------------LOGIN SYSTEM PART--------------------------------
+
+if($text == "/get" && !empty($cache->getInfo($chatID."api.txt"))){
+    sendMessage($chatID , getform($chatID));
+    $cache->progress($chatID , $chatID."cache.txt" , $text);
+    $chat = TRUE;
+}
+if($text == "/get" && empty($cache->getInfo($chatID."api.txt"))){
+    sendMessage($chatID , "First, you have to login to system.");
+    sendMessage($chatID , "You can login from here: ".$ngrok."/login.html");
+    $chat = TRUE;
+}
+
+
+if($data2[0] == "api"){
+    $cache->Start($chatID);
+    sendMessage($chatID , "Welcome to Jotform Telegram Bot again, now you can create new form with /create_form command or you can see your form submission with /get command. You can sign out with /signout command");
+    $cache->progress($chatID , $chatID."api.txt" , $data2[1]);
+    $chat = TRUE;
+
+}
+if($text == "/signout"){
+    $cache->out($chatID);
+    sendMessage($chatID , "You successfully signed out. See you soon :)");
+    $chat = TRUE;
+}
+
+// --------------------LOGIN SYSTEM PART------------------------------------------
+
 // This if clause just like a debug because bot sometimes get confuse about response 
 if(!$chat){
     sendMessage($chatID, $command->commandlist($text , $firstname));
 }
+
 ?>
 
 

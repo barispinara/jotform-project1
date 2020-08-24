@@ -1,0 +1,40 @@
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<body>
+
+
+    
+</body>
+</html>
+
+<script src="https://js.jotform.com/JotForm.js"></script>
+<script>
+
+//JF.login(success, error) method takes two optional arguments
+//Both arguments should be function 
+//First argument will be called after successful login
+//Second argument will be called if authorization fails
+
+    JF.initialize({appName: "Jotform Telegram Bot" , accessType: 'full'});
+    JF.login(
+        function success(){
+            JF.getForms(function(response){
+                for(var i=0; i<response.length; i++){
+                    var apiKey = JF.getAPIKey();
+                }
+                    document.write("You Succesfully Login the system <br/>");
+                    document.write("<a href=https://t.me/jotform_bot?start=api_"+apiKey+">Click Here to return Bot</a>");
+            });
+        },
+
+        function error(){
+            window.alert("Could not authorize user");
+        }
+    )
+    ;
+</script>

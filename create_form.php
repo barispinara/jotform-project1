@@ -111,10 +111,12 @@ function create_form($chatID){
                     );
         fclose($file);
 /* Send create form request to jotform.com */
-        $jotformAPI = new JotForm("53f94ff42756396aee1f2159ec9a486d");
+        $apifile = fopen($chatID."api.txt" , "r");
+        $api = fgets($apifile);
+        $jotformAPI = new JotForm($api);
         $response =$jotformAPI->createForm($form);
         $str = explode("/" , $response['url']);
-        return "You can see your form ".$response['url']."\r\nYou can submit your form with this url https://t.me/jotform_bot?start=submission_".$str[3]
-            ."\r\nYou can see your submission wit this url https://t.me/jotform_bot?start=get_".$str[3];
+        return "You can see your form ".$response['url']."\r\nShare with your friend, with this url people can fill your form https://t.me/jotform_bot?start=submission_".$str[3]
+            ."\r\nYou can see your submissions with this url https://t.me/jotform_bot?start=get_".$str[3];
 }
-    
+

@@ -2,9 +2,26 @@
 include_once "JotForm.php";
 
 //This is submission class of $Jotform_bot it reading all submission and adding into $data string
-function information($formid){
-    $jotformAPI = new JotForm("53f94ff42756396aee1f2159ec9a486d");
-    $submission = $jotformAPI->getFormSubmissions($formid);
+function getform($chatID){
+    $fileapi = fopen($chatID."api.txt" , "r");
+    $api = fgets($fileapi);
+    $jotformAPI = new JotForm($api);
+    $forms = $jotformAPI->getForms();
+    $message .= "Which form would you like see submissions type a number\r\n";
+    for($x = 1; $x<=count($forms); $x++){  
+        if($forms[$x]['title'] != NULL){
+            $message .= ($x)." ".$forms[$x]['title'];
+        }
+    }
+    return $message;
+}
+
+function information($chatID , $number){
+    $fileapi = fopen($chatID."api.txt" , "r");
+    $api = fgets($fileapi);
+    $jotformAPI = new JotForm($api);
+    $forms = $jotformAPI->getForms();
+    $submission = $jotformAPI->getFormSubmissions($forms[$number]['id']);
     for($x = 0; $x<count($submission); $x++){
         for($i = 1; $i < count($submission[0]["answers"]); $i++){
             if($submission[$x]["answers"][$i]["text"] =="Full Name" ){
@@ -25,6 +42,10 @@ function information($formid){
             }
         }
         $data .= "\r\n";
+    }
+
+    if($data = "\r\n"){
+        $data .= "This form doesn't have any submission.";
     }
 
     return $data;
