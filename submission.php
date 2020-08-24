@@ -3,7 +3,7 @@
 include_once $_SERVER['DOCUMENT_ROOT']."/JotForm.php";
 /* question method is reading all question in forms and adding into "question.txt" */
 function question($chatID , $number){
-    $jotformAPI = new JotForm("53f94ff42756396aee1f2159ec9a486d");
+    $jotformAPI = new JotForm("MASTER KEY");
     $response = $jotformAPI->getFormQuestions($number);
     for($i = 1 ; $i <= count($response) ; $i++){
         file_put_contents($chatID."question.txt" , $response[$i]['type']."\r\n" , FILE_APPEND);
