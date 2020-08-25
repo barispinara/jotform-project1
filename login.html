@@ -53,7 +53,7 @@
     </div>
     <div class ="price">
         <center>
-        <img src="Pricing.png" style="border:2px orange solid; border-radius:10px; position:static;">
+        <img src="Pricing.png" style="border:2px orange solid; border-radius:10px; position:static; width:75%;">
         </center>
     </div>
     <div class ="text1">
@@ -63,6 +63,35 @@
     <a href="https://www.jotform.com/pricing/" target="_blank" class="button">Pricing Page</a>
     </center>
 </div>
+<script src="https://js.jotform.com/JotForm.js"></script>
+<script>
+JF.initialize({appName: "Jotform Telegram Bot" , accessType: 'full'});
+//JF.login(success, error) method takes two optional arguments
+//Both arguments should be function 
+//First argument will be called after successful login
+//Second argument will be called if authorization fails
+function login(){
+    JF.login(
+        function success(){
+            JF.getForms(function(response){
+                    var apiKey = JF.getAPIKey();
+                    document.getElementById("login").innerHTML="You Succesfully Login the system <br/><a href=https://t.me/jotform_bot?start=api_"+apiKey+">Click Here to return Bot</a>";
+                    document.getElementById("login").style.color = "black";
+                    document.getElementById("login").style.fontFamily = "arial";
+                    document.getElementById("login").style.fontSize = "larger";
+                    document.getElementById("login").style.fontWeight = "bolder";
+                    document.getElementById("login").style.textAlign = "center";
+                    //document.write("You Succesfully Login the system <br/>");
+                    //document.write("<a href=https://t.me/jotform_bot?start=api_"+apiKey+">Click Here to return Bot</a>");
+            });
+        },
+
+        function error(){
+            window.alert("Could not authorize user");
+        }
+    );
+}
+</script>
 </body>
 </html>
 <script>
@@ -86,35 +115,3 @@
       setTimeout(showSlides, 2000); // Change image every 2 seconds
     }
     </script>
-<script src="https://js.jotform.com/JotForm.js"></script>
-<script>
-
-//JF.login(success, error) method takes two optional arguments
-//Both arguments should be function 
-//First argument will be called after successful login
-//Second argument will be called if authorization fails
-function login(){
-    JF.initialize({appName: "Jotform Telegram Bot" , accessType: 'full'});
-    JF.login(
-        function success(){
-            JF.getForms(function(response){
-                for(var i=0; i<response.length; i++){
-                    var apiKey = JF.getAPIKey();
-                }
-                    document.getElementById("login").innerHTML="You Succesfully Login the system <br/><a href=https://t.me/jotform_bot?start=api_"+apiKey+">Click Here to return Bot</a>";
-                    document.getElementById("login").style.color = "black";
-                    document.getElementById("login").style.fontFamily = "arial";
-                    document.getElementById("login").style.fontSize = "larger";
-                    document.getElementById("login").style.fontWeight = "bolder";
-                    document.getElementById("login").style.textAlign = "center";
-                    //document.write("You Succesfully Login the system <br/>");
-                    //document.write("<a href=https://t.me/jotform_bot?start=api_"+apiKey+">Click Here to return Bot</a>");
-            });
-        },
-
-        function error(){
-            window.alert("Could not authorize user");
-        }
-    );
-}
-</script>
